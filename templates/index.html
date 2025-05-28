@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Data Dashboard</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-chart-line me-3"></i>
+                    Real-Time Data Dashboard
+                </h1>
+                <p class="lead text-muted">
+                    Upload your data and visualize it in real-time with interactive charts and KPIs
+                </p>
+            </div>
+        </div>
+
+        <!-- Status Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-upload fa-2x text-primary mb-2"></i>
+                        <h5 class="card-title">Data Upload</h5>
+                        <p class="card-text">Upload JSON or CSV files</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-stream fa-2x text-success mb-2"></i>
+                        <h5 class="card-title">Real-Time Stream</h5>
+                        <p class="card-text">Live data updates via WebSocket</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-bar fa-2x text-info mb-2"></i>
+                        <h5 class="card-title">Interactive Charts</h5>
+                        <p class="card-text">Multiple visualization types</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tachometer-alt fa-2x text-warning mb-2"></i>
+                        <h5 class="card-title">KPI Monitoring</h5>
+                        <p class="card-text">Real-time metrics and indicators</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <div class="btn-group" role="group">
+                    <a href="/upload" class="btn btn-primary btn-lg">
+                        <i class="fas fa-upload me-2"></i>
+                        Upload Data
+                    </a>
+                    <button id="loadSampleBtn" class="btn btn-success btn-lg">
+                        <i class="fas fa-play me-2"></i>
+                        Load Sample Data
+                    </button>
+                    <a href="http://localhost:8000" target="_blank" class="btn btn-info btn-lg">
+                        <i class="fas fa-external-link-alt me-2"></i>
+                        Open Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connection Status -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div id="connectionStatus" class="alert alert-info" role="alert">
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    Checking connection status...
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Getting Started
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ol class="mb-0">
+                            <li>Upload your JSON or CSV data file using the "Upload Data" button</li>
+                            <li>Or click "Load Sample Data" to try with demonstration data</li>
+                            <li>Click "Open Dashboard" to view your data in interactive charts</li>
+                            <li>The dashboard updates in real-time as new data arrives</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-alt me-2"></i>
+                            Supported Formats
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <h6>JSON Files:</h6>
+                        <ul>
+                            <li>Arrays of objects</li>
+                            <li>Single objects</li>
+                            <li>Nested JSON with data arrays</li>
+                        </ul>
+                        <h6>CSV Files:</h6>
+                        <ul>
+                            <li>Standard comma-separated values</li>
+                            <li>Headers in first row</li>
+                            <li>UTF-8 or Latin-1 encoding</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history me-2"></i>
+                            Recent Activity
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="recentActivity">
+                            <p class="text-muted">No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/websocket.js') }}"></script>
+    
+    <script>
+        // Load sample data functionality
+        document.getElementById('loadSampleBtn').addEventListener('click', function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+            btn.disabled = true;
+            
+            fetch('/api/sample_data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', `Sample data loaded successfully! ${data.records} records available.`);
+                        addActivityItem('Sample data loaded', data.records + ' records');
+                    } else {
+                        showAlert('danger', 'Failed to load sample data: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error loading sample data: ' + error.message);
+                })
+                .finally(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+        });
+        
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+        
+        function addActivityItem(action, details) {
+            const activityDiv = document.getElementById('recentActivity');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const item = document.createElement('div');
+            item.className = 'border-bottom pb-2 mb-2';
+            item.innerHTML = `
+                <div class="d-flex justify-content-between">
+                    <strong>${action}</strong>
+                    <small class="text-muted">${timestamp}</small>
+                </div>
+                <small class="text-muted">${details}</small>
+            `;
+            
+            // Remove "No recent activity" message
+            if (activityDiv.querySelector('p.text-muted')) {
+                activityDiv.innerHTML = '';
+            }
+            
+            activityDiv.insertBefore(item, activityDiv.firstChild);
+            
+            // Keep only last 5 items
+            const items = activityDiv.querySelectorAll('div.border-bottom');
+            if (items.length > 5) {
+                items[items.length - 1].remove();
+            }
+        }
+    </script>
+</body>
+</html>

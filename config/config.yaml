@@ -1,0 +1,81 @@
+# Real-Time Data Dashboard Configuration
+
+websocket:
+  host: "0.0.0.0"
+  port: 5000
+  url: "http://localhost:5000"
+
+dashboard:
+  host: "0.0.0.0"
+  port: 8000
+  auto_refresh_interval: 5000  # milliseconds
+  theme: "dark"
+  title: "Real-Time Data Dashboard"
+
+data:
+  max_records: 1000
+  enable_simulation: true
+  simulation_interval: 2  # seconds
+  upload_folder: "uploads"
+  allowed_extensions:
+    - "json"
+    - "csv"
+  
+kpis:
+  total_records:
+    name: "Total Records"
+    icon: "fas fa-database"
+    color: "primary"
+    description: "Total number of records in the dataset"
+  
+  average_value:
+    name: "Average Value"
+    icon: "fas fa-chart-bar"
+    color: "success"
+    description: "Average value of numeric data"
+  
+  max_value:
+    name: "Maximum Value"
+    icon: "fas fa-arrow-up"
+    color: "info"
+    description: "Maximum value in the dataset"
+  
+  unique_categories:
+    name: "Unique Categories"
+    icon: "fas fa-tags"
+    color: "warning"
+    description: "Number of unique categories"
+
+charts:
+  overview:
+    type: "line"
+    title: "Data Overview"
+    description: "Line chart showing data trends over time"
+  
+  distribution:
+    type: "bar"
+    title: "Data Distribution"
+    description: "Bar chart showing data distribution"
+  
+  correlation:
+    type: "heatmap"
+    title: "Correlation Matrix"
+    description: "Heatmap showing correlations between variables"
+  
+  scatter:
+    type: "scatter"
+    title: "Scatter Plot"
+    description: "Scatter plot for relationship analysis"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Security settings
+security:
+  max_file_size: 16777216  # 16MB in bytes
+  allowed_hosts:
+    - "localhost"
+    - "127.0.0.1"
+    - "0.0.0.0"

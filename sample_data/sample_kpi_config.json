@@ -1,0 +1,162 @@
+{
+  "kpis": [
+    {
+      "id": "total_records",
+      "name": "Total Records",
+      "description": "Total number of records in the dataset",
+      "icon": "fas fa-database",
+      "color": "primary",
+      "calculation": "count",
+      "field": null,
+      "format": "number"
+    },
+    {
+      "id": "average_value",
+      "name": "Average Value",
+      "description": "Average value of numeric data",
+      "icon": "fas fa-chart-bar",
+      "color": "success",
+      "calculation": "mean",
+      "field": "value",
+      "format": "currency"
+    },
+    {
+      "id": "total_amount",
+      "name": "Total Amount",
+      "description": "Sum of all amounts",
+      "icon": "fas fa-dollar-sign",
+      "color": "info",
+      "calculation": "sum",
+      "field": "amount",
+      "format": "currency"
+    },
+    {
+      "id": "high_priority_count",
+      "name": "High Priority Items",
+      "description": "Number of high priority items",
+      "icon": "fas fa-exclamation-triangle",
+      "color": "warning",
+      "calculation": "count_where",
+      "field": "priority",
+      "condition": {"equals": "high"},
+      "format": "number"
+    },
+    {
+      "id": "active_status_percent",
+      "name": "Active Status %",
+      "description": "Percentage of active status items",
+      "icon": "fas fa-check-circle",
+      "color": "success",
+      "calculation": "percentage_where",
+      "field": "status",
+      "condition": {"equals": "active"},
+      "format": "percentage"
+    },
+    {
+      "id": "average_score",
+      "name": "Average Score",
+      "description": "Average score across all records",
+      "icon": "fas fa-star",
+      "color": "info",
+      "calculation": "mean",
+      "field": "score",
+      "format": "decimal"
+    }
+  ],
+  "charts": [
+    {
+      "id": "value_trend",
+      "name": "Value Trend",
+      "type": "line",
+      "x_field": "timestamp",
+      "y_field": "value",
+      "color_field": null,
+      "title": "Value Over Time",
+      "description": "Shows how values change over time"
+    },
+    {
+      "id": "category_distribution",
+      "name": "Category Distribution",
+      "type": "bar",
+      "x_field": "category",
+      "y_field": "count",
+      "color_field": "category",
+      "title": "Items by Category",
+      "description": "Distribution of items across categories"
+    },
+    {
+      "id": "region_amounts",
+      "name": "Regional Performance",
+      "type": "pie",
+      "x_field": "region",
+      "y_field": "amount",
+      "color_field": "region",
+      "title": "Amount by Region",
+      "description": "Regional breakdown of amounts"
+    },
+    {
+      "id": "score_vs_value",
+      "name": "Score vs Value",
+      "type": "scatter",
+      "x_field": "score",
+      "y_field": "value",
+      "color_field": "priority",
+      "title": "Score vs Value Analysis",
+      "description": "Relationship between score and value"
+    },
+    {
+      "id": "priority_status_heatmap",
+      "name": "Priority vs Status",
+      "type": "heatmap",
+      "x_field": "priority",
+      "y_field": "status",
+      "z_field": "count",
+      "title": "Priority vs Status Distribution",
+      "description": "Heat map showing priority and status combinations"
+    }
+  ],
+  "filters": [
+    {
+      "id": "category_filter",
+      "name": "Category",
+      "field": "category",
+      "type": "multiselect",
+      "options": ["Electronics", "Clothing", "Home & Garden", "Books", "Sports", "Food", "Automotive", "Health", "Beauty", "Toys", "Furniture", "Music", "Tools", "Kitchen", "Photography", "Pet Supplies", "Travel"]
+    },
+    {
+      "id": "region_filter",
+      "name": "Region",
+      "field": "region",
+      "type": "multiselect",
+      "options": ["North", "South", "East", "West"]
+    },
+    {
+      "id": "status_filter",
+      "name": "Status",
+      "field": "status",
+      "type": "multiselect",
+      "options": ["active", "inactive", "pending"]
+    },
+    {
+      "id": "priority_filter",
+      "name": "Priority",
+      "field": "priority",
+      "type": "multiselect",
+      "options": ["high", "medium", "low"]
+    },
+    {
+      "id": "date_range_filter",
+      "name": "Date Range",
+      "field": "timestamp",
+      "type": "daterange"
+    },
+    {
+      "id": "value_range_filter",
+      "name": "Value Range",
+      "field": "value",
+      "type": "numberrange",
+      "min": 0,
+      "max": 300
+    }
+  ]
+}
