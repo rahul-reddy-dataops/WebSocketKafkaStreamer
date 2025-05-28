@@ -42,4 +42,6 @@ uploads/
 
 # Temporary files
 tmp/
-temp/
+temp/node_modules/
+*.log
+.env
