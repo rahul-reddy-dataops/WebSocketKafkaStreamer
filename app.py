@@ -191,5 +191,5 @@ def handle_data_request():
         logger.error(f"Error handling data request: {str(e)}")
 
 if __name__ == '__main__':
-    # Run the WebSocket server
+    # Run the WebSocket server to run application
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
